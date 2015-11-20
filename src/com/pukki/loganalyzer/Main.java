@@ -28,7 +28,7 @@ public class Main {
         IFileLoader fileLoader = new FileLoader();
 
         IAnalyzer analyzer = AnalyzerFactory.resolve(projectType, fileLoader);
-        List<LogResult> result = analyzer.analyzeFiles(projectPath);
+        List<Result> result = analyzer.analyzeFiles(projectPath);
 
         HtmlGenerator htmlGenerator = new HtmlGenerator(fileLoader);
         htmlGenerator.generateHtmlReport(result);

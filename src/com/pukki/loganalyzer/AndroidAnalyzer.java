@@ -41,8 +41,8 @@ public class AndroidAnalyzer implements IAnalyzer {
     }
 
     @Override
-    public List<LogResult> analyzeFiles(String folderPath) {
-        List<LogResult> result = new ArrayList<>();
+    public List<Result> analyzeFiles(String folderPath) {
+        List<Result> result = new ArrayList<>();
         List<Path> filePaths = this.mFileLoader.getAllFilePaths(folderPath, mFileType);
 
         int idx = 0, noFiles = filePaths.size();
@@ -82,8 +82,8 @@ public class AndroidAnalyzer implements IAnalyzer {
     }
 
 
-    private LogResult analyzeFile(String fileName, String fileContent) {
-        LogResult result = new LogResult(fileName);
+    private Result analyzeFile(String fileName, String fileContent) {
+        Result result = new Result(fileName);
 
         result.setNoPublicMethods(countOccurrences(fileContent, publicMethodPattern));
         result.setNoProtectedMethods(countOccurrences(fileContent, protectedMethodPattern));

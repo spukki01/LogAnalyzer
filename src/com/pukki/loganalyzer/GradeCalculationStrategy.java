@@ -8,7 +8,7 @@ public final class GradeCalculationStrategy {
         Bad
     }
 
-    public static double calculateGrade(LogResult result) {
+    public static double calculateGrade(Result result) {
         double total =  (calculateLogGrade(result) * 0.8) +
                         (calculateCodeLinesGrade(result) * 0.1) +
                         (calculateMethodGrade(result) * 0.1);
@@ -17,7 +17,7 @@ public final class GradeCalculationStrategy {
     }
 
 
-    public static double calculateLogGrade(LogResult result) {
+    public static double calculateLogGrade(Result result) {
         double grade = 0;
 
         if (result.getNoPublicMethods() != 0) {
@@ -28,7 +28,7 @@ public final class GradeCalculationStrategy {
     }
 
 
-    public static double calculateCodeLinesGrade(LogResult result) {
+    public static double calculateCodeLinesGrade(Result result) {
         long linesCode = result.getNoLines();
 
         if (linesCode <= 450)                       return 1.0;
@@ -41,7 +41,7 @@ public final class GradeCalculationStrategy {
     }
 
 
-    public static double calculateMethodGrade(LogResult result) {
+    public static double calculateMethodGrade(Result result) {
         long noMethods = result.getNoMethods();
 
         if (noMethods <= 20)                    return 1.0;

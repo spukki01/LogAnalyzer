@@ -19,7 +19,7 @@ public class HtmlGenerator {
         this.mFileLoader = fileLoader;
     }
 
-    public boolean generateHtmlReport(List<LogResult> result) {
+    public boolean generateHtmlReport(List<Result> result) {
         String htmlPage = this.mFileLoader.readFile(Paths.get(htmlTemplatePath));
 
         htmlPage= htmlPage.replace("@timestamp@", Util.getTimeStamp());
@@ -43,7 +43,7 @@ public class HtmlGenerator {
         long totalLinesCode = 0;
 
         for (int i=0; i<result.size(); i++) {
-            LogResult res = result.get(i);
+            Result res = result.get(i);
 
             //Row 1 start
             sb.append(HtmlTagHelper.rowWellDiv);
@@ -98,7 +98,7 @@ public class HtmlGenerator {
         return openResultPage(urlPath);
     }
 
-    private void buildDetails(LogResult result, int index, StringBuilder sb) {
+    private void buildDetails(Result result, int index, StringBuilder sb) {
         sb.append(HtmlTagHelper.detailStartTemplate.replace("@detailsId", "details_" + index));
 
         sb.append(HtmlTagHelper.divider);

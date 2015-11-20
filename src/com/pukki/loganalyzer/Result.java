@@ -1,8 +1,8 @@
 package com.pukki.loganalyzer;
 
-public class LogResult {
+public class Result {
 
-    public LogResult(String fileName) {
+    public Result(String fileName) {
         this.fileName = fileName;
     }
 
