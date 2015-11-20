@@ -1,0 +1,9 @@
+R.java;
+BuildConfig.java;
+Manifest.java;
+Logger.java;
+AttachmentManager.java;
+Base64.java;
+BlockingDeque.java;
+Deque.java;
+ContentType.java;

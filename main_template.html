@@ -1,0 +1,105 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="LogAnalyzer">
+
+    <title>Results from LogAnalyzer</title>
+
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <style>
+        body { padding-top: 60px; padding-bottom: 60px; }
+        button.btn.btn-primary.glyphicon.glyphicon-plus { min-width: 38px; }
+        .well { padding: 4px; margin-bottom: 6px; }
+        .btn { min-width: 100px; margin-bottom: 4px; }
+        .divider { 
+          border-top: solid 1px lightgray; 
+          margin-left: -6px; 
+          margin-right: -4px;
+        }
+        .divider h5 {
+          margin-left: 6px;
+        }
+        .summary {
+          border: solid 1px lightgray;
+          padding: 10px 0 4px 6px;
+          margin-top: 40px;
+        }
+    </style>
+
+  </head>
+
+  <body>
+
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <a class="navbar-brand" href="#">LogAnalyzer Results</a>
+        </div>
+      </div>
+    </nav>
+
+    <div class="container">
+        <h3>Report generated at: @timestamp@</h3>
+
+		<p style="margin-bottom:0;">Blacklisted files:</p>
+        <ul>
+        	@blacklist@
+        </ul>
+
+        <div class="row summary">
+          <div class="row">
+            <div class="col-md-2">
+              <b>Total #files:</b>
+            </div>
+            <div class="col-md-2">
+              <button class="btn btn-primary">@totalFiles@</button>
+            </div>  
+            <div class="col-md-2">
+              <b>Total #methods:</b>
+            </div>
+            <div class="col-md-2">
+              <button class="btn btn-primary">@totalPublicMethods@</button>
+            </div>
+            <div class="col-md-2">
+              <b>Total #logs:</b>
+            </div>
+            <div class="col-md-2">
+              <button class="btn btn-primary">@totalLogs@</button>
+            </div>  
+          </div>
+          <div class="row divider" style="margin-top:4px; margin-bottom: 8px;"></div>
+          <div class="row" style="padding-bottom: 20px;">
+            <div class="col-md-2">
+              <b>Total #lines code:</b>
+            </div>
+            <div class="col-md-2">
+              <button class="btn btn-primary">@totalLinesCode@</button>
+            </div>  
+
+            <div class="col-md-4"></div>
+            
+            <div class="col-md-2">
+              <b>Project grade:</b>
+            </div>
+            @totalGrade@
+          </div>
+        </div>
+
+      @LogResultContent@
+
+    </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+  </body>
+</html>
