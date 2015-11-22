@@ -1,1 +1,3 @@
-results_*.html
+**/results_*.html
+**/.idea/workspace.xml
+**/.idea/tasks.xml
