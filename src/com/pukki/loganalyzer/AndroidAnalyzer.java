@@ -10,13 +10,9 @@ public class AndroidAnalyzer implements IAnalyzer {
 
     private final static String mFileType = ".java";
 
-//    private String methodRegex = "(public|protected|private|static|\\s) +[\\w\\<\\>\\[\\]]+\\s+(\\w+) *\\([^\\)]*\\) *(\\{?|[^;])";
-
     private final static String publicMethodPattern     = "(public|\\s) +[\\w\\<\\>\\[\\]]+\\s+(\\w+) *\\([^\\)]*\\) *(\\{?|[^;])";
     private final static String privateMethodPattern    = "(private|\\s) +[\\w\\<\\>\\[\\]]+\\s+(\\w+) *\\([^\\)]*\\) *(\\{?|[^;])";
     private final static String protectedMethodPattern  = "(protected|\\s) +[\\w\\<\\>\\[\\]]+\\s+(\\w+) *\\([^\\)]*\\) *(\\{?|[^;])";
-
-//    private final static String logPattern              = "Log\\..?\\(.+\\);";
 
     private final static String javaDocPattern          = "/\\*(.|[\\r\\n])*?\\*/";
 
@@ -42,7 +38,7 @@ public class AndroidAnalyzer implements IAnalyzer {
 
     @Override
     public List<Result> analyzeFiles(String folderPath) {
-        List<Result> result = new ArrayList<>();
+        List<Result> results = new ArrayList<>();
         List<Path> filePaths = this.mFileLoader.getAllFilePaths(folderPath, mFileType);
 
         int idx = 0, noFiles = filePaths.size();
@@ -50,40 +46,36 @@ public class AndroidAnalyzer implements IAnalyzer {
         for (Path path : filePaths) {
             idx++;
 
-            String fileContent = filter(this.mFileLoader.readFile(path));
-            result.add(analyzeFile(path.getFileName().toString(), fileContent));
+            String fileName = path.getFileName().toString();
+            String fileContent = this.mFileLoader.readFile(path);
+
+            Result result = !fileName.toLowerCase().contains("test")
+                                    ? analyzeFile(fileName, filter(fileContent))
+                                    : analyzeTestFile(fileName, fileContent);
+
+            results.add(result);
 
             if (idx%10 == 0) printProgress(idx, noFiles);
         }
 
         printProgress(idx, noFiles);
 
+        return results;
+    }
+
+
+    private TestResult analyzeTestFile(String fileName, String fileContent) {
+        TestResult result = new TestResult(fileName);
+
+        result.setNoPublicMethods(countOccurrences(fileContent, publicMethodPattern));
+        result.setNoProtectedMethods(countOccurrences(fileContent, protectedMethodPattern));
+        result.setNoPrivateMethods(countOccurrences(fileContent, privateMethodPattern));
+
         return result;
     }
 
-    private String filter(String fileContent) {
-        StringBuilder sb = new StringBuilder(1024);
-
-        String[] lines = fileContent.replaceAll(javaDocPattern, "").split("\r\n|\r|\n");
-
-        for (String line : lines) {
-            if (line.length() == 0 || line.matches(packagePattern) ||
-                                      line.matches(importPattern)  ||
-                                      line.trim().matches(commentPattern))
-            {
-                continue;
-            }
-
-            sb.append(line);
-            sb.append(System.getProperty("line.separator"));
-        }
-
-        return sb.toString();
-    }
-
-
-    private Result analyzeFile(String fileName, String fileContent) {
-        Result result = new Result(fileName);
+    private LogResult analyzeFile(String fileName, String fileContent) {
+        LogResult result = new LogResult(fileName);
 
         result.setNoPublicMethods(countOccurrences(fileContent, publicMethodPattern));
         result.setNoProtectedMethods(countOccurrences(fileContent, protectedMethodPattern));
@@ -101,6 +93,26 @@ public class AndroidAnalyzer implements IAnalyzer {
         return result;
     }
 
+
+    private String filter(String fileContent) {
+        StringBuilder sb = new StringBuilder(1024);
+
+        String[] lines = fileContent.replaceAll(javaDocPattern, "").split("\r\n|\r|\n");
+
+        for (String line : lines) {
+            if (line.length() == 0 || line.matches(packagePattern) ||
+                    line.matches(importPattern)  ||
+                    line.trim().matches(commentPattern))
+            {
+                continue;
+            }
+
+            sb.append(line);
+            sb.append(System.getProperty("line.separator"));
+        }
+
+        return sb.toString();
+    }
 
     private long countOccurrences(String text, String regex) {
         Matcher matcher = Pattern.compile(regex).matcher(text);

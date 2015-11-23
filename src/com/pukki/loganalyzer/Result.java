@@ -14,13 +14,6 @@ public class Result {
 
     private long noLines;
 
-    private long noVerboseLogs;
-    private long noDebugLogs;
-    private long noInfoLogs;
-    private long noWarningLogs;
-    private long noErrorLogs;
-    private long noWtfLogs;
-
 
     public String getFileName() {
         return this.fileName;
@@ -56,58 +49,6 @@ public class Result {
         this.noPrivateMethods = noPrivateMethods;
     }
 
-    //Logs
-    public long getNoLogs() {
-        return noVerboseLogs + noDebugLogs + noInfoLogs + noWarningLogs + noErrorLogs + noWtfLogs;
-    }
-
-    public long getNoVerboseLogs() {
-        return noVerboseLogs;
-    }
-
-    public void setNoVerboseLogs(long noVerboseLogs) {
-        this.noVerboseLogs = noVerboseLogs;
-    }
-
-    public long getNoDebugLogs() {
-        return noDebugLogs;
-    }
-
-    public void setNoDebugLogs(long noDebugLogs) {
-        this.noDebugLogs = noDebugLogs;
-    }
-
-    public long getNoInfoLogs() {
-        return noInfoLogs;
-    }
-
-    public void setNoInfoLogs(long noInfoLogs) {
-        this.noInfoLogs = noInfoLogs;
-    }
-
-    public long getNoWarningLogs() {
-        return noWarningLogs;
-    }
-
-    public void setNoWarningLogs(long noWarningLogs) {
-        this.noWarningLogs = noWarningLogs;
-    }
-
-    public long getNoErrorLogs() {
-        return noErrorLogs;
-    }
-
-    public void setNoErrorLogs(long noErrorLogs) {
-        this.noErrorLogs = noErrorLogs;
-    }
-
-    public void setNoWtfLogs(long noWtfLogs) {
-        this.noWtfLogs = noWtfLogs;
-    }
-
-    public long getNoWtfLogs() {
-        return noWtfLogs;
-    }
 
     //Other
     public long getNoLines() {

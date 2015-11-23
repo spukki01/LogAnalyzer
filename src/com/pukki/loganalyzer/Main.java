@@ -23,8 +23,6 @@ public class Main {
             return;
         }
 
-//        projectPath = "";
-
         IFileLoader fileLoader = new FileLoader();
 
         IAnalyzer analyzer = AnalyzerFactory.resolve(projectType, fileLoader);

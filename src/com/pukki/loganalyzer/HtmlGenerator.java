@@ -22,28 +22,21 @@ public class HtmlGenerator {
     public boolean generateHtmlReport(List<Result> result) {
         String htmlPage = this.mFileLoader.readFile(Paths.get(htmlTemplatePath));
 
-        htmlPage= htmlPage.replace("@timestamp@", Util.getTimeStamp());
-
-        htmlPage = htmlPage.replace("@totalFiles@", Integer.toString(result.size()));
-
-        String[] blacklistFiles = this.mFileLoader.readFile(Paths.get(blacklistPath)).split(";");
-
-        String blacklistHtml = "";
-        for (String file : blacklistFiles) {
-            blacklistHtml += String.format(HtmlTagHelper.liTag, file);
-        }
-
-        htmlPage = htmlPage.replace("@blacklist@", blacklistHtml);
-
         StringBuilder sb = new StringBuilder(4096);
 
         double totalGrade = 0;
-        long totalMethods = 0;
-        long totalLogs = 0;
-        long totalLinesCode = 0;
+        long totalMethods = 0, totalLogs = 0, totalLinesCode = 0, totalTestCases = 0, noFiles = 0;
 
         for (int i=0; i<result.size(); i++) {
-            Result res = result.get(i);
+
+            Result temp = result.get(i);
+
+            if (temp instanceof TestResult) {
+                totalTestCases += ((TestResult)temp).getNoTestCases();
+                continue;
+            }
+
+            LogResult res = (LogResult) temp;
 
             //Row 1 start
             sb.append(HtmlTagHelper.rowWellDiv);
@@ -80,25 +73,40 @@ public class HtmlGenerator {
             totalLinesCode += res.getNoLines();
             totalLogs += res.getNoLogs();
             totalMethods += res.getNoMethods();
+            noFiles++;
         }
 
-        totalGrade = GradeCalculationStrategy.round(totalGrade / (double) result.size());
+        totalGrade = GradeCalculationStrategy.round(totalGrade / (double) noFiles);
 
         htmlPage = htmlPage.replace("@totalGrade@", HtmlTagHelper.getGradeButton(totalGrade, ""));
-
-        htmlPage = htmlPage.replace("@totalPublicMethods@", Long.toString(totalMethods));
-        htmlPage = htmlPage.replace("@totalLogs@", Long.toString(totalLogs));
+        htmlPage = htmlPage.replace("@totalTestCases@", Long.toString(totalTestCases));
         htmlPage = htmlPage.replace("@totalLinesCode@", Long.toString(totalLinesCode));
+        htmlPage = htmlPage.replace("@totalLogs@", Long.toString(totalLogs));
+        htmlPage = htmlPage.replace("@totalPublicMethods@", Long.toString(totalMethods));
+        htmlPage = htmlPage.replace("@totalFiles@", Long.toString(noFiles));
+        htmlPage = htmlPage.replace("@blacklist@", buildBlacklistSection());
+        htmlPage = htmlPage.replace("@timestamp@", Util.getTimeStamp());
 
 
         htmlPage = htmlPage.replace("@LogResultContent@", sb.toString());
-
 
         String urlPath = createHtmlResultPage(htmlPage);
         return openResultPage(urlPath);
     }
 
-    private void buildDetails(Result result, int index, StringBuilder sb) {
+    private String buildBlacklistSection() {
+        String blacklistHtml = "";
+
+        String[] blacklistFiles = this.mFileLoader.readFile(Paths.get(blacklistPath)).split(";");
+
+        for (String file : blacklistFiles) {
+            blacklistHtml += String.format(HtmlTagHelper.liTag, file);
+        }
+
+        return blacklistHtml;
+    }
+
+    private void buildDetails(LogResult result, int index, StringBuilder sb) {
         sb.append(HtmlTagHelper.detailStartTemplate.replace("@detailsId", "details_" + index));
 
         sb.append(HtmlTagHelper.divider);

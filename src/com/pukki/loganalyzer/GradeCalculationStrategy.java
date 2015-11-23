@@ -8,7 +8,7 @@ public final class GradeCalculationStrategy {
         Bad
     }
 
-    public static double calculateGrade(Result result) {
+    public static double calculateGrade(LogResult result) {
         double total =  (calculateLogGrade(result) * 0.8) +
                         (calculateCodeLinesGrade(result) * 0.1) +
                         (calculateMethodGrade(result) * 0.1);
@@ -17,7 +17,7 @@ public final class GradeCalculationStrategy {
     }
 
 
-    public static double calculateLogGrade(Result result) {
+    public static double calculateLogGrade(LogResult result) {
         double grade = 0;
 
         if (result.getNoPublicMethods() != 0) {
@@ -54,7 +54,7 @@ public final class GradeCalculationStrategy {
     }
 
     public static Classification getClassification(double grade) {
-        if (grade >= 0.8)  return Classification.Good;
+        if (grade >= 0.8)   return Classification.Good;
         if (grade >= 0.4)   return Classification.Warning;
 
         return Classification.Bad;
