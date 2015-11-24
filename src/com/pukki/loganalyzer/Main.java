@@ -13,16 +13,6 @@ public class Main {
         String projectType = args[0];
         String projectPath = args[1];
 
-        if (projectType.length() == 0) {
-            System.out.println("No project type defined");
-            return;
-        }
-
-        if (projectPath.length() == 0) {
-            System.out.println("No project path defined");
-            return;
-        }
-
         IFileLoader fileLoader = new FileLoader();
 
         IAnalyzer analyzer = AnalyzerFactory.resolve(projectType, fileLoader);
