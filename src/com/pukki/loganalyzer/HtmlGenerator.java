@@ -24,7 +24,7 @@ public class HtmlGenerator {
 
         StringBuilder sb = new StringBuilder(4096);
 
-        double totalGrade = 0;
+        double totalGradeSum = 0;
         long totalMethods = 0, totalLogs = 0, totalLinesCode = 0, totalTestCases = 0, noFiles = 0;
 
         for (int i=0; i<result.size(); i++) {
@@ -69,14 +69,14 @@ public class HtmlGenerator {
             //Row 1 end
             sb.append(HtmlTagHelper.divCloseTag);
 
-            totalGrade += grade;
+            totalGradeSum += grade;
             totalLinesCode += res.getNoLines();
             totalLogs += res.getNoLogs();
             totalMethods += res.getNoMethods();
             noFiles++;
         }
 
-        totalGrade = GradeCalculationStrategy.round(totalGrade / (double) noFiles);
+        Double totalGrade = GradeCalculationStrategy.calculateTotalGrade(totalGradeSum, noFiles);
 
         htmlPage = htmlPage.replace("@totalGrade@", HtmlTagHelper.getGradeButton(totalGrade, ""));
         htmlPage = htmlPage.replace("@totalTestCases@", Long.toString(totalTestCases));

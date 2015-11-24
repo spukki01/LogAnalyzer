@@ -100,15 +100,10 @@ public class AndroidAnalyzer implements IAnalyzer {
         String[] lines = fileContent.replaceAll(javaDocPattern, "").split("\r\n|\r|\n");
 
         for (String line : lines) {
-            if (line.length() == 0 || line.matches(packagePattern) ||
-                    line.matches(importPattern)  ||
-                    line.trim().matches(commentPattern))
-            {
-                continue;
+            if (isLineValid(line)) {
+                sb.append(line);
+                sb.append(System.getProperty("line.separator"));
             }
-
-            sb.append(line);
-            sb.append(System.getProperty("line.separator"));
         }
 
         return sb.toString();
@@ -125,10 +120,16 @@ public class AndroidAnalyzer implements IAnalyzer {
         return count;
     }
 
-
     private static long countLines(String str){
         String[] lines = str.split("\r\n|\r|\n");
         return  lines.length;
+    }
+
+    private boolean isLineValid(String line) {
+        return !(line.length() == 0 ||
+                 line.matches(packagePattern) ||
+                 line.matches(importPattern)  ||
+                 line.trim().matches(commentPattern));
     }
 
     private static void printProgress(int progress, int total) {

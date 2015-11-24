@@ -8,6 +8,10 @@ public final class GradeCalculationStrategy {
         Bad
     }
 
+    public static double calculateTotalGrade(double totalGradeSum, long noFiles) {
+        return round(totalGradeSum / (double) noFiles);
+    }
+
     public static double calculateGrade(LogResult result) {
         double total =  (calculateLogGrade(result) * 0.8) +
                         (calculateCodeLinesGrade(result) * 0.1) +
@@ -60,7 +64,7 @@ public final class GradeCalculationStrategy {
         return Classification.Bad;
     }
 
-    public static double round(double value) {
+    private static double round(double value) {
         return (double)Math.round(value*100)/100;
     }
 
