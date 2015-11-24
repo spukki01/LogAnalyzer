@@ -9,6 +9,8 @@ public class LogResult extends Result {
     private long noErrorLogs;
     private long noWtfLogs;
 
+    private boolean hasTestClass;
+
     public LogResult(String fileName) {
         super(fileName);
     }
@@ -66,4 +68,11 @@ public class LogResult extends Result {
         return noWtfLogs;
     }
 
+    public void setHasTestClass(boolean hasTestClass) {
+        this.hasTestClass = hasTestClass;
+    }
+
+    public boolean hasTestClass() {
+        return hasTestClass;
+    }
 }

@@ -9,6 +9,8 @@ public final class HtmlTagHelper {
 
     private final static String newLine = System.getProperty("line.separator");
 
+    private final static String checkMarkTag    = "<div class=\"col-md-2 %s\"></div>" + newLine;
+
     public final static String detailStartTemplate =
             "<div class=\"col-md-12 collapse\" id=\"@detailsId\" aria-expanded=\"true\">";
 
@@ -25,9 +27,10 @@ public final class HtmlTagHelper {
     public final static String rowWellDiv       = "<div class=\"row well\">";
     public final static String rowDiv           = "<div class=\"row\">";
 
+    public final static String divTagCol1       = "<div class=\"col-md-1\">%s</div>" + newLine;
     public final static String divTagCol3       = "<div class=\"col-md-3\">%s</div>" + newLine;
     public final static String divTagCol4       = "<div class=\"col-md-4\">%s</div>" + newLine;
-    public final static String divTagCol9       = "<div class=\"col-md-9\">%s</div>" + newLine;
+    public final static String divTagCol6       = "<div class=\"col-md-6\">%s</div>" + newLine;
     public final static String divTagCol10      = "<div class=\"col-md-10\">%s</div>" + newLine;
 
     public final static String divTag           = "<div>%s</div>" + newLine;
@@ -35,6 +38,10 @@ public final class HtmlTagHelper {
 
     public final static String liTag            = "<li>%s</li>" + newLine;
 
+
+    public static String getCheckMark(boolean hasValue) {
+        return String.format(checkMarkTag, hasValue ? "glyphicon glyphicon-ok" : "glyphicon glyphicon-remove");
+    }
 
     public static String getGradeButton(double grade) {
         return getGradeButton(grade, "Grade: ");

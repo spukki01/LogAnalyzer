@@ -48,9 +48,15 @@ public class HtmlGenerator {
             sb.append(HtmlTagHelper.expandButton.replace("@detailsId", "details_" + i));
 
             //Column 2
-            sb.append(String.format(HtmlTagHelper.divTagCol9, "<b>Filename:</b> " + res.getFileName()));
+            sb.append(String.format(HtmlTagHelper.divTagCol6, "<b>Filename:</b> " + res.getFileName()));
 
             //Column 3
+            sb.append(String.format(HtmlTagHelper.divTagCol1, "<b>Tests exists:</b>"));
+
+            //Column 4
+            sb.append(HtmlTagHelper.getCheckMark(res.hasTestClass()));
+
+            //Column 5
             double grade = GradeCalculationStrategy.calculateGrade(res);
             sb.append(HtmlTagHelper.getGradeButton(grade));
 

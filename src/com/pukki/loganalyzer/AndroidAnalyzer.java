@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 public class AndroidAnalyzer implements IAnalyzer {
 
@@ -41,6 +42,8 @@ public class AndroidAnalyzer implements IAnalyzer {
         List<Result> results = new ArrayList<>();
         List<Path> filePaths = this.mFileLoader.getAllFilePaths(folderPath, mFileType);
 
+        List<String> fileNames = convertPathsToFileNames(filePaths);
+
         int idx = 0, noFiles = filePaths.size();
         printProgress(idx, noFiles);
         for (Path path : filePaths) {
@@ -50,7 +53,7 @@ public class AndroidAnalyzer implements IAnalyzer {
             String fileContent = this.mFileLoader.readFile(path);
 
             Result result = !fileName.toLowerCase().contains("test")
-                                    ? analyzeFile(fileName, filter(fileContent))
+                                    ? analyzeFile(fileName, filter(fileContent), fileNames)
                                     : analyzeTestFile(fileName, fileContent);
 
             results.add(result);
@@ -64,6 +67,7 @@ public class AndroidAnalyzer implements IAnalyzer {
     }
 
 
+
     private TestResult analyzeTestFile(String fileName, String fileContent) {
         TestResult result = new TestResult(fileName);
 
@@ -74,7 +78,7 @@ public class AndroidAnalyzer implements IAnalyzer {
         return result;
     }
 
-    private LogResult analyzeFile(String fileName, String fileContent) {
+    private LogResult analyzeFile(String fileName, String fileContent, List<String> fileNames) {
         LogResult result = new LogResult(fileName);
 
         result.setNoPublicMethods(countOccurrences(fileContent, publicMethodPattern));
@@ -89,6 +93,9 @@ public class AndroidAnalyzer implements IAnalyzer {
         result.setNoWtfLogs(countOccurrences(fileContent, wtfLogPattern));
 
         result.setNoLines(countLines(fileContent));
+
+        boolean hasTestClass = fileNames.contains(fileName.replace(".java", "Test.java"));
+        result.setHasTestClass(hasTestClass);
 
         return result;
     }
@@ -130,6 +137,10 @@ public class AndroidAnalyzer implements IAnalyzer {
                  line.matches(packagePattern) ||
                  line.matches(importPattern)  ||
                  line.trim().matches(commentPattern));
+    }
+
+    private static List<String> convertPathsToFileNames(List<Path> filePaths) {
+        return filePaths.stream().map(path -> path.getFileName().toString()).collect(Collectors.toList());
     }
 
     private static void printProgress(int progress, int total) {
