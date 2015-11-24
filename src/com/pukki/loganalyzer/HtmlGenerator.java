@@ -51,7 +51,7 @@ public class HtmlGenerator {
             sb.append(String.format(HtmlTagHelper.divTagCol6, "<b>Filename:</b> " + res.getFileName()));
 
             //Column 3
-            sb.append(String.format(HtmlTagHelper.divTagCol1, "<b>Tests exists:</b>"));
+            sb.append(String.format(HtmlTagHelper.divTagCol1, "<b>Test class exists:</b>"));
 
             //Column 4
             sb.append(HtmlTagHelper.getCheckMark(res.hasTestClass()));
