@@ -3,11 +3,8 @@ package com.pukki.loganalyzer;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-import java.util.stream.Collectors;
 
-public class AndroidAnalyzer implements IAnalyzer {
+public class AndroidAnalyzer extends Analyzer implements IAnalyzer {
 
     private final static String mFileType = ".java";
 
@@ -31,7 +28,6 @@ public class AndroidAnalyzer implements IAnalyzer {
 
 
     private IFileLoader mFileLoader;
-
 
     public AndroidAnalyzer(IFileLoader fileLoader) {
         this.mFileLoader = fileLoader;
@@ -66,16 +62,19 @@ public class AndroidAnalyzer implements IAnalyzer {
         return results;
     }
 
+    String filter(String fileContent) {
+        StringBuilder sb = new StringBuilder(1024);
 
+        String[] lines = fileContent.replaceAll(javaDocPattern, "").split("\r\n|\r|\n");
 
-    private TestResult analyzeTestFile(String fileName, String fileContent) {
-        TestResult result = new TestResult(fileName);
+        for (String line : lines) {
+            if (isLineValid(line)) {
+                sb.append(line);
+                sb.append(System.getProperty("line.separator"));
+            }
+        }
 
-        result.setNoPublicMethods(countOccurrences(fileContent, publicMethodPattern));
-        result.setNoProtectedMethods(countOccurrences(fileContent, protectedMethodPattern));
-        result.setNoPrivateMethods(countOccurrences(fileContent, privateMethodPattern));
-
-        return result;
+        return sb.toString();
     }
 
     private LogResult analyzeFile(String fileName, String fileContent, List<String> fileNames) {
@@ -94,42 +93,20 @@ public class AndroidAnalyzer implements IAnalyzer {
 
         result.setNoLines(countLines(fileContent));
 
-        boolean hasTestClass = fileNames.contains(fileName.replace(".java", "Test.java"));
+        boolean hasTestClass = fileNames.contains(fileName.replace(mFileType, "Test" + mFileType));
         result.setHasTestClass(hasTestClass);
 
         return result;
     }
 
+    private TestResult analyzeTestFile(String fileName, String fileContent) {
+        TestResult result = new TestResult(fileName);
 
-    private String filter(String fileContent) {
-        StringBuilder sb = new StringBuilder(1024);
+        result.setNoPublicMethods(countOccurrences(fileContent, publicMethodPattern));
+        result.setNoProtectedMethods(countOccurrences(fileContent, protectedMethodPattern));
+        result.setNoPrivateMethods(countOccurrences(fileContent, privateMethodPattern));
 
-        String[] lines = fileContent.replaceAll(javaDocPattern, "").split("\r\n|\r|\n");
-
-        for (String line : lines) {
-            if (isLineValid(line)) {
-                sb.append(line);
-                sb.append(System.getProperty("line.separator"));
-            }
-        }
-
-        return sb.toString();
-    }
-
-    private long countOccurrences(String text, String regex) {
-        Matcher matcher = Pattern.compile(regex).matcher(text);
-
-        long count = 0;
-        while(matcher.find()) {
-            count++;
-        }
-
-        return count;
-    }
-
-    private static long countLines(String str){
-        String[] lines = str.split("\r\n|\r|\n");
-        return  lines.length;
+        return result;
     }
 
     private boolean isLineValid(String line) {
@@ -137,14 +114,6 @@ public class AndroidAnalyzer implements IAnalyzer {
                  line.matches(packagePattern) ||
                  line.matches(importPattern)  ||
                  line.trim().matches(commentPattern));
-    }
-
-    private static List<String> convertPathsToFileNames(List<Path> filePaths) {
-        return filePaths.stream().map(path -> path.getFileName().toString()).collect(Collectors.toList());
-    }
-
-    private static void printProgress(int progress, int total) {
-        System.out.println("Done analyzing " + progress + " of " + total + " files.");
     }
 
 }
