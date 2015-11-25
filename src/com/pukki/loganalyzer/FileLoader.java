@@ -14,6 +14,7 @@ public class FileLoader implements IFileLoader {
 
     private static HashSet<String> mBlacklist = null;
 
+    @Override
     public List<Path> getAllFilePaths(String folderPath, String fileType) {
         List<Path> filePaths = new ArrayList<>();
 
@@ -30,7 +31,7 @@ public class FileLoader implements IFileLoader {
         return filePaths;
     }
 
-
+    @Override
     public String readFile(Path path) {
         try {
             byte[] encoded = Files.readAllBytes(path);
