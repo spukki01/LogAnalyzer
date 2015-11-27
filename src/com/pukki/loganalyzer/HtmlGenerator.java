@@ -25,13 +25,15 @@ public class HtmlGenerator {
         StringBuilder sb = new StringBuilder(4096);
 
         double totalGradeSum = 0;
-        long totalMethods = 0, totalLogs = 0, totalLinesCode = 0, totalTestCases = 0, noFiles = 0;
+        long totalMethods = 0, totalLogs = 0, totalLinesCode = 0, totalTestCases = 0,
+                noFiles = 0, noTestFiles = 0;
 
         for (int i=0; i<result.size(); i++) {
 
             Result temp = result.get(i);
 
             if (temp instanceof TestResult) {
+                noTestFiles++;
                 totalTestCases += ((TestResult)temp).getNoTestCases();
                 continue;
             }
@@ -82,9 +84,8 @@ public class HtmlGenerator {
             noFiles++;
         }
 
-        Double totalGrade = GradeCalculationStrategy.calculateTotalGrade(totalGradeSum, noFiles);
-
-        htmlPage = htmlPage.replace("@totalGrade@", HtmlTagHelper.getGradeButton(totalGrade, ""));
+        //Create summary
+        htmlPage = htmlPage.replace("@totalTestFiles@", Long.toString(noTestFiles));
         htmlPage = htmlPage.replace("@totalTestCases@", Long.toString(totalTestCases));
         htmlPage = htmlPage.replace("@totalLinesCode@", Long.toString(totalLinesCode));
         htmlPage = htmlPage.replace("@totalLogs@", Long.toString(totalLogs));
@@ -93,7 +94,11 @@ public class HtmlGenerator {
         htmlPage = htmlPage.replace("@blacklist@", buildBlacklistSection());
         htmlPage = htmlPage.replace("@timestamp@", Util.getTimeStamp());
 
+        //Project grade
+        Double totalGrade = GradeCalculationStrategy.calculateTotalGrade(totalGradeSum, noFiles);
+        htmlPage = htmlPage.replace("@totalGrade@", HtmlTagHelper.getGradeButton(totalGrade, ""));
 
+        //Files result
         htmlPage = htmlPage.replace("@LogResultContent@", sb.toString());
 
         String urlPath = createHtmlResultPage(htmlPage);
@@ -114,8 +119,6 @@ public class HtmlGenerator {
 
     private void buildDetails(LogResult result, int index, StringBuilder sb) {
         sb.append(HtmlTagHelper.detailStartTemplate.replace("@detailsId", "details_" + index));
-
-        sb.append(HtmlTagHelper.divider);
 
 
         sb.append(String.format(HtmlTagHelper.dividerHeader, "Logs (" + result.getNoLogs() + ")"));

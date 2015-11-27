@@ -25,6 +25,8 @@
           border-top: solid 1px lightgray; 
           margin-left: -6px; 
           margin-right: -4px;
+          margin-top:4px;
+          margin-bottom: 8px;
         }
         .divider h5 {
           margin-left: 6px;
@@ -61,6 +63,13 @@
         <div class="row summary">
           <div class="row">
             <div class="col-md-2">
+              <b>Project grade:</b>
+            </div>
+            @totalGrade@
+          </div>
+          <div class="row divider"></div>
+          <div class="row">
+            <div class="col-md-2">
               <b>Total #files:</b>
             </div>
             <div class="col-md-2">
@@ -79,7 +88,7 @@
               <button class="btn btn-primary">@totalLogs@</button>
             </div>  
           </div>
-          <div class="row divider" style="margin-top:4px; margin-bottom: 8px;"></div>
+          <div class="row divider"></div>
           <div class="row" style="padding-bottom: 20px;">
             <div class="col-md-2">
               <b>Total #lines code:</b>
@@ -88,15 +97,17 @@
               <button class="btn btn-primary">@totalLinesCode@</button>
             </div>  
             <div class="col-md-2">
+              <b>Total #test files:</b>
+            </div>
+            <div class="col-md-2">
+              <button class="btn btn-primary">@totalTestFiles@</button>
+            </div>
+            <div class="col-md-2">
               <b>Total #test cases:</b>
             </div>
             <div class="col-md-2">
               <button class="btn btn-primary">@totalTestCases@</button>
-            </div>  
-            <div class="col-md-2">
-              <b>Project grade:</b>
             </div>
-            @totalGrade@
           </div>
         </div>
 
