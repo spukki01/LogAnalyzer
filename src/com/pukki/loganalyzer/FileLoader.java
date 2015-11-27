@@ -5,6 +5,7 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
 import java.util.*;
 
 public class FileLoader implements IFileLoader {
@@ -42,6 +43,18 @@ public class FileLoader implements IFileLoader {
         }
 
         return "";
+    }
+
+    @Override
+    public boolean writeFile(Path path, String content) {
+        try {
+            Files.write(path, content.getBytes(), StandardOpenOption.WRITE);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
+
+        return true;
     }
 
 

@@ -30,8 +30,4 @@ public abstract class Analyzer {
         return filePaths.stream().map(path -> path.getFileName().toString()).collect(Collectors.toList());
     }
 
-    static void printProgress(int progress, int total) {
-        System.out.println("Done analyzing " + progress + " of " + total + " files.");
-    }
-
 }

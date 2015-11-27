@@ -7,7 +7,6 @@ public interface IFileLoader {
 
     List<Path> getAllFilePaths(String folderPath, String fileType);
     String readFile(Path path);
-
-
+    boolean writeFile(Path path, String content);
 
 }

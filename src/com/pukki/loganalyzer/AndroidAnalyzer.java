@@ -41,10 +41,7 @@ public class AndroidAnalyzer extends Analyzer implements IAnalyzer {
         List<String> fileNames = convertPathsToFileNames(filePaths);
 
         int idx = 0, noFiles = filePaths.size();
-        printProgress(idx, noFiles);
         for (Path path : filePaths) {
-            idx++;
-
             String fileName = path.getFileName().toString();
             String fileContent = this.mFileLoader.readFile(path);
 
@@ -54,10 +51,11 @@ public class AndroidAnalyzer extends Analyzer implements IAnalyzer {
 
             results.add(result);
 
-            if (idx%10 == 0) printProgress(idx, noFiles);
+            if (idx%10 == 0) Util.printProgress(idx, noFiles);
+            idx++;
         }
 
-        printProgress(idx, noFiles);
+        Util.printProgress(idx, noFiles);
 
         return results;
     }
