@@ -24,8 +24,9 @@ public final class GradeCalculationStrategy {
     public static double calculateLogGrade(LogResult result) {
         double grade = 0;
 
-        if (result.getNoPublicMethods() != 0) {
-            grade = ((double) result.getNoLogs())/((double)result.getNoPublicMethods());
+        if (result.getNoPublicMethods() > 0 || result.getNoProtectedMethods() > 0) {
+            long noMethods = result.getNoPublicMethods() + result.getNoProtectedMethods();
+            grade = ((double) result.getNoLogs())/((double)noMethods);
         }
 
         return grade > 1.0 ? 1.0 : round(grade);
