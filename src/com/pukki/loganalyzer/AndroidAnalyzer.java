@@ -10,7 +10,7 @@ public class AndroidAnalyzer extends Analyzer implements IAnalyzer {
 
     private final static String publicMethodPattern     = "(public|public static|\\s) +[\\w\\<\\>\\[\\]]+\\s+(\\w+) *\\([^\\)]*\\) *(\\{)";
     private final static String privateMethodPattern    = "(private|private static|\\s) +[\\w\\<\\>\\[\\]]+\\s+(\\w+) *\\([^\\)]*\\) *(\\{)";
-    private final static String protectedMethodPattern  = "(protected|private static|\\s) +[\\w\\<\\>\\[\\]]+\\s+(\\w+) *\\([^\\)]*\\) *(\\{)";
+    private final static String protectedMethodPattern  = "(protected|protected static|\\s) +[\\w\\<\\>\\[\\]]+\\s+(\\w+) *\\([^\\)]*\\) *(\\{)";
 
     private final static String javaDocPattern          = "/\\*(.|[\\r\\n])*?\\*/";
 
