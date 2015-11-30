@@ -28,6 +28,12 @@ public final class GradeCalculationStrategy {
             long noMethods = result.getNoPublicMethods() + result.getNoProtectedMethods();
             grade = ((double) result.getNoLogs())/((double)noMethods);
         }
+        else if (result.getNoPrivateMethods() > 0) {
+            grade = result.getNoLogs() > 0 ? 1.0 : 0.0;
+        }
+        else {
+            grade = 1.0;
+        }
 
         return grade > 1.0 ? 1.0 : round(grade);
     }
