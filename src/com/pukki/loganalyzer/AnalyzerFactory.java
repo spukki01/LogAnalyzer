@@ -4,7 +4,7 @@ public class AnalyzerFactory {
 
 
     public static IAnalyzer resolve(String projectType, IFileLoader fileLoader) {
-        switch (projectType) {
+        switch (projectType.toLowerCase()) {
             case "android":
                 return new AndroidAnalyzer(fileLoader);
         }
