@@ -1,5 +1,3 @@
-package com.pukki.loganalyzer;
-
 public final class GradeCalculationStrategy {
 
     public enum Classification {
@@ -22,7 +20,7 @@ public final class GradeCalculationStrategy {
 
 
     public static double calculateLogGrade(LogResult result) {
-        double grade = 0;
+        double grade;
 
         if (result.getNoPublicMethods() > 0 || result.getNoProtectedMethods() > 0) {
             long noMethods = result.getNoPublicMethods() + result.getNoProtectedMethods();

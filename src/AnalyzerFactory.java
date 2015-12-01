@@ -1,5 +1,3 @@
-package com.pukki.loganalyzer;
-
 public class AnalyzerFactory {
 
 

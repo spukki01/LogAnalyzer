@@ -1,5 +1,3 @@
-package com.pukki.loganalyzer;
-
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 

@@ -1,5 +1,3 @@
-package com.pukki.loganalyzer;
-
 public final class HtmlTagHelper {
 
     private final static String Success         = "btn-success";

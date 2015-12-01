@@ -1,5 +1,3 @@
-package com.pukki.loganalyzer;
-
 import java.util.List;
 
 public class Main {
@@ -14,11 +12,12 @@ public class Main {
         String projectPath = args[1];
 
         IFileLoader fileLoader = new FileLoader();
-
         IAnalyzer analyzer = AnalyzerFactory.resolve(projectType, fileLoader);
+
         List<Result> result = analyzer.analyzeFiles(projectPath);
 
         HtmlGenerator htmlGenerator = new HtmlGenerator(fileLoader);
         htmlGenerator.generateHtmlReport(result);
+
     }
 }

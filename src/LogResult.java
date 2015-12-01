@@ -1,5 +1,3 @@
-package com.pukki.loganalyzer;
-
 public class LogResult extends Result {
 
     private long noVerboseLogs;

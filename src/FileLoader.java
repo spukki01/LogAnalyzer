@@ -1,5 +1,3 @@
-package com.pukki.loganalyzer;
-
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;

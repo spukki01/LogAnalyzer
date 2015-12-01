@@ -1,5 +1,3 @@
-package com.pukki.loganalyzer;
-
 import java.awt.*;
 import java.io.File;
 import java.io.FileNotFoundException;
